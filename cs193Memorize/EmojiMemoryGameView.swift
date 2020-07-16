@@ -8,11 +8,11 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct EmojiMemoryGameView: View {
     //init at SceneDelegate.swift
     //let game = EmojiMemoryGame()
     //let contentView = ContentView(viewModel: game)
-    var viewModel: EmojiMemoryGame
+    @ObservedObject var viewModel: EmojiMemoryGame
     
     //some - this property is any type, any struct, as long as it behaves like a View
     //as long as it is some View
@@ -22,7 +22,7 @@ struct ContentView: View {
         let foreachStack =  ForEach(viewModel.cards, content: {
         //let foreachStack =  ForEach(0..<viewModel.cards.count, content: {
             card in
-            CardView(card: card).onTapGesture{
+            CardView(card: card).aspectRatio(2/3, contentMode: .fit).onTapGesture{
                 self.viewModel.choose(card: card)
             }
             //CardView(isFaceUp: true)
@@ -33,7 +33,7 @@ struct ContentView: View {
         })
         .padding()
         .foregroundColor(Color.orange)
-        .font(Font.largeTitle)
+        
     }
 }
 
@@ -41,18 +41,33 @@ struct CardView:View{
     //var isFaceUp:Bool
     var card:MemoryGame<String>.Card
     var body:some View{
+        GeometryReader(content: { geometry in
+            self.body(for: geometry.size)
+        })
+    }
+    
+    func body(for size:CGSize)->some View{
         ZStack{
             if card.isFaceUp {
             //if isFaceUp {
-                RoundedRectangle(cornerRadius: 10.0).fill(Color.white)
-                RoundedRectangle(cornerRadius: 10.0).stroke(lineWidth: 3)
+                RoundedRectangle(cornerRadius: cornerRadius).fill(Color.white)
+                RoundedRectangle(cornerRadius: cornerRadius).stroke(lineWidth: edgeLineWidth)
                 Text(card.content)
                 //Text("👻")
             }else{
-                RoundedRectangle(cornerRadius: 10.0).fill()
+                RoundedRectangle(cornerRadius: cornerRadius).fill()
             }
         }
+        //.font(Font.largeTitle)
+        .font(Font.system(size: fontSize(for: size)))
     }
+    // MARK: - Drawing Constants
+    let cornerRadius:CGFloat = 10
+    let edgeLineWidth:CGFloat = 3
+    func fontSize(for size:CGSize)->CGFloat{
+        min(size.width, size.height) * 0.75
+    }
+    
 }
 struct CardViewVer1:View{
     var body:some View{
@@ -77,6 +92,6 @@ struct CardViewVer0:View{
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(viewModel: EmojiMemoryGame())
+        EmojiMemoryGameView(viewModel: EmojiMemoryGame())
     }
 }

@@ -10,10 +10,10 @@ import Foundation
 import SwiftUI
 
 //ViewModel
-class EmojiMemoryGame{
+class EmojiMemoryGame:ObservableObject{
     //View - inside a house, ViewModel - door, Model - outside world
     //private - closed door, private(set) - closed glass door
-    private var model: MemoryGame<String> = EmojiMemoryGame.createMemoryGame()
+    @Published private var model: MemoryGame<String> = EmojiMemoryGame.createMemoryGame()
     //Ver 1
     //private var model: MemoryGame<String> = MemoryGame<String>(numberOfPairsOfCards:2, cardContentFactory: {
         //Ver 1.2
@@ -28,8 +28,10 @@ class EmojiMemoryGame{
             return emojis[pairIndex]
         }
     }
-        
     
+    //Already defined when :ObservableObject
+    //var objectWillChange: ObservableObjectPublisher
+        
     //MARK: - Access to the Model
     var cards:Array<MemoryGame<String>.Card>{
         model.cards
@@ -37,6 +39,7 @@ class EmojiMemoryGame{
     
     //MARK: - Intent(s)
     func choose(card:MemoryGame<String>.Card){
+        //objectWillChange.send()
         model.choose(card: card)
     }
 }
