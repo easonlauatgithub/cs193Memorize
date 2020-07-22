@@ -19,21 +19,14 @@ struct EmojiMemoryGameView: View {
     //it may return a combiner View/lego, with tons and tons of View inside that are combined
     //Ask combine to figure out what body is returning, make sure it behaves like a View
     var body: some View {
-        let foreachStack =  ForEach(viewModel.cards, content: {
-        //let foreachStack =  ForEach(0..<viewModel.cards.count, content: {
-            card in
-            CardView(card: card).aspectRatio(2/3, contentMode: .fit).onTapGesture{
+        Grid(viewModel.cards){ card in
+            CardView(card: card).onTapGesture{
                 self.viewModel.choose(card: card)
             }
-            //CardView(isFaceUp: true)
-        })
-        
-        return HStack(content: {
-            foreachStack
-        })
+        .padding(5)
+        }
         .padding()
-        .foregroundColor(Color.orange)
-        
+        .foregroundColor(Color.orange)        
     }
 }
 
@@ -55,7 +48,11 @@ struct CardView:View{
                 Text(card.content)
                 //Text("👻")
             }else{
-                RoundedRectangle(cornerRadius: cornerRadius).fill()
+                if !card.isMatched{
+                    RoundedRectangle(cornerRadius: cornerRadius).fill()
+                }else{
+                    //matched, make the cards disappear
+                }
             }
         }
         //.font(Font.largeTitle)
