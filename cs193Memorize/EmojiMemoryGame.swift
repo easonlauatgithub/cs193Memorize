@@ -12,7 +12,7 @@ import SwiftUI
 //ViewModel
 class EmojiMemoryGame:ObservableObject{
     //View - inside a house, ViewModel - door, Model - outside world
-    //private - closed door, private(set) - closed glass door
+    //private - closed door, private(set) - closed glass door, can read but not write
     @Published private var model: MemoryGame<String> = EmojiMemoryGame.createMemoryGame()
     //Ver 1
     //private var model: MemoryGame<String> = MemoryGame<String>(numberOfPairsOfCards:2, cardContentFactory: {
@@ -21,7 +21,7 @@ class EmojiMemoryGame:ObservableObject{
         //Ver 1.1
         //(pairIndex:Int)->String in return "🤣"
     //})
-    static func createMemoryGame() -> MemoryGame<String> {
+    private static func createMemoryGame() -> MemoryGame<String> {
         let emojis: Array<String> = ["👻","🎃","🕷"]
         return MemoryGame<String>(numberOfPairsOfCards:emojis.count){
             pairIndex in

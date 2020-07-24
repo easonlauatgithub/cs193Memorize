@@ -1,0 +1,54 @@
+//
+//  Cardify.swift
+//  cs193Memorize
+//
+//  Created by Eason on 24/7/2020.
+//  Copyright © 2020 cs193p. All rights reserved.
+//
+import SwiftUI
+
+struct Cardify : ViewModifier {
+    var isFaceUp:Bool
+    func body(content:Content)->some View{
+        ZStack{
+            if isFaceUp {
+                RoundedRectangle(cornerRadius: cornerRadius).fill(Color.white)
+                RoundedRectangle(cornerRadius: cornerRadius).stroke(lineWidth: edgeLineWidth)
+                content
+            }else{
+                RoundedRectangle(cornerRadius: cornerRadius).fill()
+            }
+        }
+    }
+    private let cornerRadius:CGFloat = 10.0
+    private let edgeLineWidth:CGFloat = 3
+}
+extension View{
+    func cardify(isFaceUp:Bool)->some View{
+        self.modifier(Cardify(isFaceUp: isFaceUp))
+    }
+}
+
+/*
+private func body(for size:CGSize)->some View{
+    ZStack{
+        if card.isFaceUp {
+        //if isFaceUp {
+            //func fill<S>(_ whatToFillWith:S)->View where S:ShapeStyle
+            RoundedRectangle(cornerRadius: cornerRadius).fill(Color.white)
+            RoundedRectangle(cornerRadius: cornerRadius).stroke(lineWidth: edgeLineWidth)
+            Pie(startAngle: Angle.degrees(0-90), endAngle: Angle.degrees(90-90), clockwise: true).padding(5).opacity(0.5)
+            Text(card.content)
+            //Text("👻")
+        }else{
+            if !card.isMatched{
+                RoundedRectangle(cornerRadius: cornerRadius).fill()
+            }else{
+                //matched, make the cards disappear
+            }
+        }
+    }
+    //.font(Font.largeTitle)
+    .font(Font.system(size: fontSize(for: size)))
+}
+**/

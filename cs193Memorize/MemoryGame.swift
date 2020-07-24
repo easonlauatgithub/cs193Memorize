@@ -12,8 +12,8 @@ import Foundation
 //data from http network or sql database
 struct MemoryGame<CardContent> where CardContent:Equatable{
     //CardContent - don't care type
-    var cards:Array<Card>
-    var indexOfTheOneAndOnlyFaceUpCard: Int? {
+    private(set) var cards:Array<Card>
+    private var indexOfTheOneAndOnlyFaceUpCard: Int? {
         get{
             var faceUpCardIndices = [Int]()
             for index in cards.indices{
