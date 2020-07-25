@@ -14,15 +14,12 @@ class EmojiMemoryGame:ObservableObject{
     //View - inside a house, ViewModel - door, Model - outside world
     //private - closed door, private(set) - closed glass door, can read but not write
     @Published private var model: MemoryGame<String> = EmojiMemoryGame.createMemoryGame()
-    //Ver 1
-    //private var model: MemoryGame<String> = MemoryGame<String>(numberOfPairsOfCards:2, cardContentFactory: {
-        //Ver 1.2
-        //pairIndex in "🤣"
-        //Ver 1.1
-        //(pairIndex:Int)->String in return "🤣"
+    //Ver 1 //private var model: MemoryGame<String> = MemoryGame<String>(numberOfPairsOfCards:2, cardContentFactory: {
+        //Ver 1.2 //pairIndex in "🤣"
+        //Ver 1.1 //(pairIndex:Int)->String in return "🤣"
     //})
     private static func createMemoryGame() -> MemoryGame<String> {
-        let emojis: Array<String> = ["👻","🎃","🕷"]
+        let emojis: Array<String> = ["👻","🎃","🕷","😈","💀","😱"]
         return MemoryGame<String>(numberOfPairsOfCards:emojis.count){
             pairIndex in
             return emojis[pairIndex]
@@ -41,5 +38,9 @@ class EmojiMemoryGame:ObservableObject{
     func choose(card:MemoryGame<String>.Card){
         //objectWillChange.send()
         model.choose(card: card)
+    }
+    
+    func resetGame(){
+        model = EmojiMemoryGame.createMemoryGame()
     }
 }
