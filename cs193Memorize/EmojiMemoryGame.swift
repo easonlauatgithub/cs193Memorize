@@ -9,7 +9,13 @@
 import Foundation
 import SwiftUI
 
-//ViewModel
+/**
+ ViewModel
+ 
+ - Author: Eason
+ - Version: 1.0
+ - Subclass - when extend :ObservableObject, class EmojiMemoryGame will automatically define a var objectWillChange: ObservableObjectPublisher
+ */
 class EmojiMemoryGame:ObservableObject{
     //View - inside a house, ViewModel - door, Model - outside world
     //private - closed door, private(set) - closed glass door, can read but not write
@@ -26,8 +32,6 @@ class EmojiMemoryGame:ObservableObject{
         }
     }
     
-    //Already defined when :ObservableObject
-    //var objectWillChange: ObservableObjectPublisher
         
     //MARK: - Access to the Model
     var cards:Array<MemoryGame<String>.Card>{

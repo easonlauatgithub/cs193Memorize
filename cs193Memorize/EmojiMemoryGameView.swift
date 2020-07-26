@@ -6,8 +6,9 @@
 //  Copyright © 2020 cs193p. All rights reserved.
 //
 import SwiftUI
+
+///init at SceneDelegate.swift;
 struct EmojiMemoryGameView: View {
-    //init at SceneDelegate.swift
     @ObservedObject var viewModel: EmojiMemoryGame
     //some - this property is any type, any struct, as long as it behaves like a View
     //as long as it is some View
