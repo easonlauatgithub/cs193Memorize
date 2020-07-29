@@ -25,7 +25,7 @@ class EmojiMemoryGame:ObservableObject{
         //Ver 1.1 //(pairIndex:Int)->String in return "🤣"
     //})
     private static func createMemoryGame() -> MemoryGame<String> {
-        let emojis: Array<String> = ["👻","🎃","🕷","😈","💀","😱"]
+        let emojis: Array<String> = ["👻","🎃","🕷","😈","😱","👹","👽","☠️","🤡","🧛‍♂️"]
         return MemoryGame<String>(numberOfPairsOfCards:emojis.count){
             pairIndex in
             return emojis[pairIndex]
@@ -36,6 +36,15 @@ class EmojiMemoryGame:ObservableObject{
     //MARK: - Access to the Model
     var cards:Array<MemoryGame<String>.Card>{
         model.cards
+    }
+    
+    var willShowAlert:Bool{
+        get {
+             return model.willShowAlert
+         }
+         set(value) {
+            model.willShowAlert = value
+         }
     }
     
     //MARK: - Intent(s)

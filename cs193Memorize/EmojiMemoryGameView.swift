@@ -15,7 +15,7 @@ struct EmojiMemoryGameView: View {
     //it may return a combiner View/lego, with tons and tons of View inside that are combined
     //Ask combine to figure out what body is returning, make sure it behaves like a View
     var body: some View {
-        VStack{
+        VStack {
             Grid(viewModel.cards){ card in
                 CardView(card: card).onTapGesture{
                     withAnimation(.linear(duration:0.75), {
@@ -25,13 +25,45 @@ struct EmojiMemoryGameView: View {
             .padding(5)
             }
             .padding()
-            .foregroundColor(Color.orange)
-            Button(action: {
-                withAnimation(.easeInOut, {
-                    self.viewModel.resetGame()
-                })
-            }, label: {Text("New Game")})
+            .foregroundColor(Color.green)
+            
+            Button(
+                action:{
+                    withAnimation(.easeInOut, {self.viewModel.resetGame()})
+                }, label: {
+                    Text("New Game")
+                }
+            )
         }
+        //Alert
+        .alert(isPresented: $viewModel.willShowAlert, content: {
+            Alert(title: Text("New Game"),
+                  message: Text("Try another round?"),
+                  //dismissButton: .cancel(),
+                primaryButton: .default(Text("New Game")) {
+                    withAnimation(
+                        .easeInOut,
+                        {self.viewModel.resetGame()}
+                    )
+                },
+                secondaryButton: .destructive(Text("Quit")){ print("quit game") }
+            )
+        })
+        /*
+        //ActionSheet
+        .actionSheet(isPresented: $showingSheet) {
+            ActionSheet(title: Text("What do you want to do?"), message: Text("There's only one choice..."), buttons: [.default(Text("Dismiss Action Sheet"))])
+        }
+        //Context Menu
+        .contextMenu {
+            Button(action: {
+                // change country setting
+            }) {Text("Choose Country");Image(systemName: "globe")}
+            Button(action: {
+                // enable geolocation
+            }) {Text("Detect Location");Image(systemName: "location.circle")}
+        }*/
+
     }
 }
 
@@ -68,17 +100,17 @@ struct CardView:View{
                 Text(card.content)
                     .font(Font.system(size: fontSize(for: size)))
                     .rotationEffect(Angle.degrees(card.isMatched ?360:0))
-                    .animation(card.isMatched ?Animation.linear(duration: 1).repeatForever(autoreverses: false):.default)
+                    //.animation(card.isMatched ?Animation.linear(duration: 1).repeatForever(autoreverses: false):.default)
+                    .animation(card.isMatched ?Animation.linear(duration: 1).repeatCount(1, autoreverses: false):.default)
             }
             //.modifier(Cardify(isFaceUp: card.isFaceUp))
             .cardify(isFaceUp:card.isFaceUp)
-            .transition(AnyTransition.scale)
+            //.transition(AnyTransition.scale)
             //.rotation3DEffect(Angle.degrees(card.isFaceUp ?0:180), axis: (0,1,0))
-        }else{
-            //card not face up and card matched, disappear
+        } else {//card matched (and face down)
             Text(card.content)
             .font(Font.system(size: fontSize(for: size)))
-            //.cardify(isFaceUp:card.isFaceUp)
+            .cardify(isFaceUp: true)
         }
     }
 

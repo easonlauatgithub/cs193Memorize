@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+///return bestlayout
 struct Grid<Item, ItemView>: View where Item:Identifiable, ItemView:View{
     private var items:[Item]
     private var viewForItem:(Item)->ItemView
@@ -17,7 +18,7 @@ struct Grid<Item, ItemView>: View where Item:Identifiable, ItemView:View{
         self.viewForItem = viewForItem
     }
     var body: some View {
-        GeometryReader{ geometry in
+        GeometryReader(){ geometry in
             //self.body(for: geometry.size)
             self.body(for: GridLayout(itemCount: self.items.count, in: geometry.size))
         }

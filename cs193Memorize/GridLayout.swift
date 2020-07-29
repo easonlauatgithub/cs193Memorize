@@ -5,9 +5,8 @@
 //  Created by CS193p Instructor.
 //  Copyright © 2020 Stanford University. All rights reserved.
 //
-
 import SwiftUI
-
+///find out the width, height, location of item in the best layout
 struct GridLayout {
     private(set) var size: CGSize
     private(set) var rowCount: Int = 0
@@ -15,19 +14,15 @@ struct GridLayout {
     
     init(itemCount: Int, nearAspectRatio desiredAspectRatio: Double = 1, in size: CGSize) {
         self.size = size
-        // if our size is zero width or height or the itemCount is not > 0
-        // then we have no work to do (because our rowCount & columnCount will be zero)
+        // if our size is zero width or height or the itemCount is not > 0, then we have no work to do (because our rowCount & columnCount will be zero)
         guard size.width != 0, size.height != 0, itemCount > 0 else { return }
-        // find the bestLayout
-        // i.e., one which results in cells whose aspectRatio
-        // has the smallestVariance from desiredAspectRatio
-        // not necessarily most optimal code to do this, but easy to follow (hopefully)
+        // find the bestLayout i.e., one which results in cells whose aspectRatio has the smallestVariance from desiredAspectRatio
         var bestLayout: (rowCount: Int, columnCount: Int) = (1, itemCount)
         var smallestVariance: Double?
         let sizeAspectRatio = abs(Double(size.width/size.height))
         for rows in 1...itemCount {
             let columns = (itemCount / rows) + (itemCount % rows > 0 ? 1 : 0)
-            if (rows - 1) * columns < itemCount {
+            if (rows - 1) * columns < itemCount { //for certain columns, find min rows
                 let itemAspectRatio = sizeAspectRatio * (Double(rows)/Double(columns))
                 let variance = abs(itemAspectRatio - desiredAspectRatio)
                 if smallestVariance == nil || variance < smallestVariance! {

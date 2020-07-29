@@ -22,11 +22,6 @@ struct MemoryGame<CardContent> where CardContent:Equatable{
                 }
             }
             return faceUpCardIndices.only
-            if faceUpCardIndices.count == 1{
-                return faceUpCardIndices.first
-            }else{
-                return nil
-            }
         }
         set{
             for index in cards.indices{
@@ -39,6 +34,8 @@ struct MemoryGame<CardContent> where CardContent:Equatable{
             }
         }
     }
+    var counter:Int = 0
+    var willShowAlert:Bool = false
     
     mutating func choose(card: Card){
         //print("card chosen: \(card)")
@@ -48,6 +45,14 @@ struct MemoryGame<CardContent> where CardContent:Equatable{
                 if cards[chosenIndex].content == cards[potentialMatchIndex].content{
                     cards[chosenIndex].isMatched = true
                     cards[potentialMatchIndex].isMatched = true
+                    
+                    //Popup alert when all cards matched
+                    counter+=1
+                    if(counter*2 == cards.count){
+                        print("willShowAlert")
+                        self.willShowAlert = true
+                    }
+                    
                 }
                 //indexOfTheOneAndOnlyFaceUpCard = nil
                 self.cards[chosenIndex].isFaceUp = true
